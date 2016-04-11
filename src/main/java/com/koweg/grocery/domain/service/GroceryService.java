@@ -58,7 +58,7 @@ public class GroceryService {
                 }
             }
 
-            List<Fruit> _cart = new ArrayList<>();
+            List<Fruit> _cart = new ArrayList<>(cart.size());
             for (Entry<FruitType, Integer> item : cart.entrySet()) {
                 if (item.getKey().equals(FruitType.APPLE)) {
                     _cart.add(new Apple(item.getValue()));
