@@ -20,7 +20,6 @@ import com.koweg.grocery.domain.model.Apple;
 import com.koweg.grocery.domain.model.Fruit;
 import com.koweg.grocery.domain.model.FruitType;
 import com.koweg.grocery.domain.model.Orange;
-import com.koweg.grocery.service.BasicCostCalculator;
 
 /**
  * @author olarinde.ajai@gmail.com
@@ -75,8 +74,8 @@ public class GroceryService {
     }
 
     public static void main(String[] args) {
-        CostCalculator basicCostCalculator = new BasicCostCalculator();
-        GroceryService groceryService = new GroceryService(basicCostCalculator);
+        CostCalculator costCalculator = new DiscountCostCalculator();
+        GroceryService groceryService = new GroceryService(costCalculator);
         try {
             double totalCost = groceryService.totalCost(Arrays.asList(args));
             System.out.println("Total Cost = £" + BigDecimal.valueOf(totalCost).setScale(2, RoundingMode.UP).doubleValue());

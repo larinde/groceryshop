@@ -20,29 +20,30 @@ import org.junit.Test;
 import com.koweg.grocery.domain.exception.GroceryShopException;
 import com.koweg.grocery.domain.model.FruitType;
 import com.koweg.grocery.domain.service.BasicCostCalculator;
+import com.koweg.grocery.domain.service.DiscountCostCalculator;
 import com.koweg.grocery.domain.service.GroceryService;
 
 /**
  * @author olarinde.ajai@gmail.com
  *
  */
-public class GroceryServiceTest {
+public class GroceryServiceWithDiscountTest {
 
     private GroceryService service;
 
     @Before
     public void setup() {
-         service = new GroceryService(new BasicCostCalculator());
+         service = new GroceryService(new DiscountCostCalculator());
     }
 
     @Test
-    public void shouldCalculateExpectedCostOfOneAppleItem() {
+    public void shouldCalculateExpectedDiscountedCostOfOneAppleItem() {
         assertThat(service.totalCost(Arrays.asList("apple")), equalTo(FruitType.APPLE.getUnitCost()));
     }
 
     @Test
-    public void shouldCalculateExpectedCostOfThreeAppleItems() {
-        assertThat(BigDecimal.valueOf(service.totalCost(Arrays.asList("apple", "apple", "apple"))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.80d));
+    public void shouldCalculateExpectedDiscountedCostOfThreeAppleItems() {
+        assertThat(BigDecimal.valueOf(service.totalCost(Arrays.asList("apple", "apple", "apple"))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.20d));
     }
 
     @Test(expected = GroceryShopException.class)
@@ -56,17 +57,24 @@ public class GroceryServiceTest {
     }
 
     @Test
-    public void shouldCalculateExpectedCostOfSevenOrangeItems() {
+    public void shouldCalculateExpectedDiscountedCostOfSevenOrangeItems() {
         int numOranges = 7;
         int numApples = 0;
-        assertThat(service.totalCost(generateItems(numApples, numOranges)), equalTo(1.75d));
+        assertThat(service.totalCost(generateItems(numApples, numOranges)), equalTo(1.25d));
     }
 
     @Test
     public void shouldCalculateExpectedCostOfThreeAppleAndOneOrangeItems() {
         int numApples = 3;
         int numOranges = 1;
-        assertThat(service.totalCost(generateItems(numApples, numOranges)), equalTo(2.05d));
+        assertThat(BigDecimal.valueOf(service.totalCost(generateItems(numApples, numOranges))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.45d));
+    }
+
+    @Test
+    public void shouldCalculateExpectedCostOfTwoAppleAndThreeOrangeItems() {
+        int numApples = 2;
+        int numOranges = 3;
+        assertThat(BigDecimal.valueOf(service.totalCost(generateItems(numApples, numOranges))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.10d));
     }
 
     private List<String> generateItems(int numApples, int numOranges){

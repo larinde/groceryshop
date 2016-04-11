@@ -3,12 +3,11 @@
  *
  */
 
-package com.koweg.grocery.service;
+package com.koweg.grocery.domain.service;
 
 import com.koweg.grocery.domain.model.Apple;
 import com.koweg.grocery.domain.model.FruitType;
 import com.koweg.grocery.domain.model.Orange;
-import com.koweg.grocery.domain.service.CostCalculator;
 
 /**
  * @author olarinde.ajai@gmail.com
