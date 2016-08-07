@@ -17,7 +17,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.koweg.grocery.domain.exception.GroceryShopException;
 import com.koweg.grocery.domain.model.FruitType;
 import com.koweg.grocery.domain.service.BasicCostCalculator;
 import com.koweg.grocery.domain.service.GroceryService;
@@ -43,11 +42,6 @@ public class GroceryServiceTest {
     @Test
     public void shouldCalculateExpectedCostOfThreeAppleItems() {
         assertThat(BigDecimal.valueOf(service.totalCost(Arrays.asList("apple", "apple", "apple"))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.80d));
-    }
-
-    @Test(expected = GroceryShopException.class)
-    public void shouldThrowExceptionForInvalidItem() {
-        service.totalCost(Arrays.asList("apple", "unknowItem"));
     }
 
     @Test

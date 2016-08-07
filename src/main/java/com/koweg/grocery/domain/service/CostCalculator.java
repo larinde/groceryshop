@@ -5,8 +5,7 @@
 
 package com.koweg.grocery.domain.service;
 
-import com.koweg.grocery.domain.model.Apple;
-import com.koweg.grocery.domain.model.Orange;
+import com.koweg.grocery.domain.model.Fruit;
 
 /**
  * @author olarinde.ajai@gmail.com
@@ -14,8 +13,7 @@ import com.koweg.grocery.domain.model.Orange;
  */
 public interface CostCalculator {
 
-    public double calculateCost(Apple apple);
 
-    public double calculateCost(Orange orange);
+    public double calculateCost(Fruit fruit);
 
 }

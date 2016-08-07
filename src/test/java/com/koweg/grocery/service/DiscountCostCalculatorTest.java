@@ -14,8 +14,8 @@ import java.math.RoundingMode;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.koweg.grocery.domain.model.Apple;
-import com.koweg.grocery.domain.model.Orange;
+import com.koweg.grocery.domain.model.Fruit;
+import com.koweg.grocery.domain.model.FruitType;
 import com.koweg.grocery.domain.service.CostCalculator;
 import com.koweg.grocery.domain.service.DiscountCostCalculator;
 
@@ -34,25 +34,27 @@ public class DiscountCostCalculatorTest {
 
     @Test
     public void shouldCalculateExpectedDiscountedCostOfTwoApples() {
-        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Apple(2))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(0.60d));
+        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Fruit(FruitType.APPLE, 2))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(0.60d));
     }
 
     @Test
     public void shouldCalculateExpectedDiscountedCostOfThreeApples() {
-        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Apple(3))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.20d));
+        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Fruit(FruitType.APPLE, 3))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.20d));
     }
 
     @Test
     public void shouldCalculateExpectedDiscountedCostOfThreeOranges() {
-        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Orange(3))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(0.50d));
+        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Fruit(FruitType.ORANGE, 3))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(0.50d));
     }
 
     @Test
     public void shouldCalculateExpectedDiscountedCostOfFiveOranges() {
-        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Orange(5))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.0d));
+        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Fruit(FruitType.ORANGE, 5))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.0d));
     }
     @Test
     public void shouldCalculateExpectedDiscountedCostOfNineOranges() {
-        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Orange(9))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.5d));
+        assertThat(BigDecimal.valueOf(discountCostCalculator.calculateCost(new Fruit(FruitType.ORANGE, 9))).setScale(2, RoundingMode.UP).doubleValue(), equalTo(1.5d));
     }
+
+
 }

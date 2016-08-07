@@ -9,17 +9,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
-import com.koweg.grocery.domain.exception.GroceryShopException;
-import com.koweg.grocery.domain.model.Apple;
 import com.koweg.grocery.domain.model.Fruit;
 import com.koweg.grocery.domain.model.FruitType;
-import com.koweg.grocery.domain.model.Orange;
 
 /**
  * @author olarinde.ajai@gmail.com
@@ -34,43 +29,27 @@ public class GroceryService {
     }
 
     public double totalCost(final List<String> items) {
-        List<Fruit> shoppingCart = loadShoppingCart(items);
+//        List<AbstractFruit> shoppingCart = loadShoppingCart(items);
+        List<Fruit> shoppingCart = collate(items);
         return calculateCost(shoppingCart);
     }
 
+
     private double calculateCost(final List<Fruit> shoppingCart) {
-        double totalCost = 0;
-        for (Fruit fruit : shoppingCart) {
-            totalCost += fruit.getCost(calculator);
-        }
-        return totalCost;
+        return shoppingCart.stream().mapToDouble(tot -> tot.getCost(calculator)).sum();
     }
 
-    private List<Fruit> loadShoppingCart(final List<String> items) {
-        try {
-            Map<FruitType, Integer> cart = new HashMap<>();
-            for (String item : items) {
-                FruitType fruitType = FruitType.valueOf(item.toUpperCase());
-                if (cart.containsKey(fruitType)) {
-                    cart.put(fruitType, cart.get(fruitType).intValue() + 1);
-                } else {
-                    cart.put(fruitType, Integer.valueOf(1));
-                }
-            }
+    public List<Fruit> collate(List<String> items) {
 
-            List<Fruit> _cart = new ArrayList<>(cart.size());
-            for (Entry<FruitType, Integer> item : cart.entrySet()) {
-                if (item.getKey().equals(FruitType.APPLE)) {
-                    _cart.add(new Apple(item.getValue()));
-                }
-                if (item.getKey().equals(FruitType.ORANGE)) {
-                    _cart.add(new Orange(item.getValue()));
-                }
-            }
-            return Collections.unmodifiableList(_cart);
-        } catch (Exception e) {
-            throw new GroceryShopException("invalid or unknown item");
-        }
+        Map<String, List<FruitType>> collatedItems = items.stream()
+        .map(String::toUpperCase)
+        .map(fr -> FruitType.valueOf(fr))
+        .collect(Collectors.groupingBy(FruitType::name));
+
+        List<Fruit>result = new ArrayList<>();
+        collatedItems.forEach((k, v) -> {result.add(new Fruit(FruitType.valueOf(k), v.size()));});
+        return result;
+
     }
 
     public static void main(String[] args) {

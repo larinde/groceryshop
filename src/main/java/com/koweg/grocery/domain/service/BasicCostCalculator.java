@@ -5,9 +5,7 @@
 
 package com.koweg.grocery.domain.service;
 
-import com.koweg.grocery.domain.model.Apple;
-import com.koweg.grocery.domain.model.FruitType;
-import com.koweg.grocery.domain.model.Orange;
+import com.koweg.grocery.domain.model.Fruit;
 
 /**
  * @author olarinde.ajai@gmail.com
@@ -16,13 +14,8 @@ import com.koweg.grocery.domain.model.Orange;
 public class BasicCostCalculator implements CostCalculator {
 
     @Override
-    public double calculateCost(Apple apple) {
-        return apple.getQuantity() * FruitType.APPLE.getUnitCost();
-    }
-
-    @Override
-    public double calculateCost(Orange orange) {
-        return orange.getQuantity() * FruitType.ORANGE.getUnitCost();
+    public double calculateCost(Fruit fruit) {
+        return fruit.getQuantity() * fruit.getFruitType().getUnitCost();
     }
 
 }
