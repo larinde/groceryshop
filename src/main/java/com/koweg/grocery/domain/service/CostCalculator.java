@@ -11,6 +11,7 @@ import com.koweg.grocery.domain.model.Fruit;
  * @author olarinde.ajai@gmail.com
  *
  */
+@FunctionalInterface
 public interface CostCalculator {
 
 
