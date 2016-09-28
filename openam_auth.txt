@@ -1,0 +1,38 @@
+curl --request POST --header "Content-Type: application/json" --header "X-OpenAM-Username: demo" --header "X-OpenAM-Password: changeit" --header "Accept-API-Version: resource=2.0, protocol=1.0" http://localhost:8080/OpenAM-13.0.0/json/authenticate
+
+curl --request POST --header "Content-Type: application/json" --header "X-OpenAM-Username: demo" --header "X-OpenAM-Password: changeit" http://localhost:8080/OpenAM-13.0.0/json/authenticate
+
+Authenticate using Realm
+-------------------------
+curl --request POST --header "Content-Type: application/json" --header "X-OpenAM-Username: amadmin" --header "X-OpenAM-Password: P@ssword1" http://localhost:8080/OpenAM-13.0.0/json/authenticate
+
+Logging out
+------------
+
+curl --request POST --header "iplanetDirectoryPro: AQIC5wM2LY4Sfcz4W2nsDy7otd7OSbJRAqKlPAl_4RUXg_4.*AAJTSQACMDEAAlNLABQtMTMxNDIzMTUxODM1ODgwODM0MQACUzEAAA..*" --header "Content-Type: application/json" http://localhost:8080/OpenAM-13.0.0/json/dtc/sessions/?_action=logout
+
+
+Observe that the session token is inserted into a header field named
+iPlanetDirectoryPro. This header field name must correspond to the name of
+the OpenAM session cookie—by default, iPlanetDirectoryPro. You can find the
+cookie name by navigating to Configuration > Servers and Sites > Server Name
+> Security and locating the Cookie Name field in the OpenAM console.
+
+
+session validation on resource access
+----------------------------------------
+curl \
+--request POST \
+--header "Content-Type: application/json" \
+http://openam.example.com:8080/openam/json/sessions/AQIC5...?_action=validate
+{"valid":true,"uid":"demo","realm":"/myRealm"}
+
+
+
+Creating identities (new users) as an admin user
+------------------------------------------------
+curl --request POST --header "iplanetDirectoryPro: AQIC5wM2LY4Sfcwx6cMzvgWFAMU5R1y8aL09S8pAUa9jY9g.*AAJTSQACMDEAAlNLABMzOTY3MDQzNDIyMzg1OTczNjYwAAJTMQAA*" --header "Content-Type: application/json" --data "{ \"username\": \"janedoe\", \"userpassword\": \"password\",\"mail\": \"janedoe@mars.quest.com\" }" http://localhost:8080/OpenAM-13.0.0/json/dtc/users/?_action=create
+
+{"username":"janedoe","realm":"/dtc","uid":["janedoe"],"mail":["janedoe@mars.quest.com"],"universalid":["id=janedoe,ou=user,o=dtc,ou=services,dc=openam,dc=forgerock,dc=org"],"objectClass":["iplanet-am-managed-person","inetuser","sunFederationManagerDataStore","sunFMSAML2NameIdentifier","inetorgperson","devicePrintProfilesContainer","sunIdentityServerLibertyPPService","iplanet-am-user-service","iPlanetPreferences","forgerock-am-dashboard-service","organizationalperson","top","kbaInfoContainer","oathDeviceProfilesContainer","sunAMAuthAccountLockout","person","iplanet-am-auth-configuration-service"],"dn":["uid=janedoe,ou=people,dc=openam,dc=forgerock,dc=org"],"inetUserStatus":["Active"],"sn":["janedoe"],"cn":["janedoe"],"createTimestamp":["20160927230242Z"]}
+
+
